@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import CarRepository, { Car } from '../src/database/CarRepository';
 
 const repository = new CarRepository();
 
 export default function Home() {
     const [cars, setCars] = useState<Car[]>([]);
+    const [id, setId] = useState('');
 
     const create = async () => {
       const id = await repository.create({
@@ -26,26 +27,80 @@ export default function Home() {
     }
 
     const remove = async () => {
-      const rowsAffected = await repository.remove(3);
+      const rowsAffected = await repository.remove(Number(id));
       console.log(rowsAffected);
 
       await all();
     }
 
     return (
-      <View>
-        <Button onPress={create} title='CREATE' />
-        <Button onPress={all} title='ALL' />
-        <Button onPress={remove} title='REMOVE' />
+      <View style={styles.container}>
+        <View style={styles.item}>
+          <Button onPress={create} title='CREATE' />
+          <Text>{`Criar um registro \nno banco de dados`}</Text>
+        </View>
+        <View style={styles.item}>
+          <Button onPress={all} title='ALL' />
+          <Text>{`Busca os registros \nno banco de dados`}</Text>
+        </View>
+        <View style={styles.item}>
+          <Button onPress={remove} title='REMOVE' />
+          <TextInput
+          style={styles.input}
+          placeholder="ID"
+          placeholderTextColor="#e1e2df80"
+          value={id}
+          onChangeText={(newText) => setId(newText)}
+        />
+          <Text>{`Remove um registro \nno banco de dados`}</Text>
+        </View>
         
-        {cars.map((car) => (
-          <View key={car.id}>
-            <Text>{car.id} - </Text>
-            <Text>
-              {car.brand} {car.model} {car.hp}
-            </Text>
-          </View>
-        ))}
+        <View style={styles.list}>
+          {cars.map((car) => (
+            <View style={styles.listItem} key={car.id}>
+              <Text>{car.id} - </Text>
+              <Text>
+                {car.brand} {car.model} {car.hp}
+              </Text>
+            </View>
+          ))}
+        </View>
       </View>
     )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 5,
+    width: 300,
+    height: 40,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: 'rgba(225, 226, 223, 0.5)',
+    paddingLeft: 5,
+    paddingBottom: 4,
+    paddingTop: 4,
+    fontSize: 14,
+    height: 40,
+    borderRadius: 4,
+  },
+  list: {
+    width: 300,
+    alignItems: 'center',
+  },
+  listItem: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#0004',
+  }
+});
