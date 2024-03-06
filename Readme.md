@@ -47,7 +47,7 @@ Para iniciar o aplicativo, utilize o seguinte comando:
 npx expo start
 ```
 
-Isso abrirá o Expo Developer Tools em seu navegador. Você pode usar um emulador ou o aplicativo Expo Go no seu dispositivo para visualizar o aplicativo.
+Isso abrirá o Expo Developer Tools em seu navegador ou em seu prompt de comandos. Você pode usar um emulador ou o aplicativo Expo Go no seu dispositivo para visualizar o aplicativo.
 
 ## 🤝 Contribuições
 
