@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import CarRepository, { Car } from '../src/database/CarRepository';
+import { createCar } from '../src/controller/carController';
 
 const repository = new CarRepository();
 
@@ -9,12 +10,20 @@ export default function Home() {
     const [id, setId] = useState('');
 
     const create = async () => {
-      const id = await repository.create({
+      /* const id = await repository.create({
         brand: "VW",
         model: "Fusca",
         hp: Math.floor(Math.random() * 100),
       });
-      console.log("Created: ", id);
+      console.log("Created: ", id); */
+
+      const response = await createCar({
+        brand: "VW",
+        model: "Fusca",
+        hp: Math.floor(Math.random() * 100),
+      });
+
+      console.log(response);
 
       await all();
     }
